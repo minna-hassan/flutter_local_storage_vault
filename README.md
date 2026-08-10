@@ -13,8 +13,7 @@ If you find this repository helpful or use parts of it in your own work, please 
 ---
 
 # 🎬 Preview
-
-<video src="https://github.com/minna-hassan/flutter_local_storage_vault/releases/download/untagged-fc4ab65fa2b4fbc4f5f6/vault.mp4" width="100%" controls></video>
+https://github.com/user-attachments/assets/c6ac08e0-62f3-4364-9e27-85af69ebaf7c
 
 ---
 
