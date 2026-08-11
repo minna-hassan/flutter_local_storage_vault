@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class RecentItem extends StatelessWidget {
   final IconData icon;
   final String title;
   final String userName;
+  final String contentToCopy;
+  final bool isFavorite;
+  final VoidCallback onFavoriteToggled;
 
-  const RecentItem({
+  RecentItem({
     super.key,
     required this.icon,
     required this.title,
     required this.userName,
+    required this.contentToCopy,
+    required this.isFavorite,
+    required this.onFavoriteToggled,
   });
 
   @override
@@ -71,21 +78,32 @@ class RecentItem extends StatelessWidget {
             ),
           ),
 
-          IconButton(
-            onPressed: () {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text("Copied to clipboard")));
-            },
-            padding: EdgeInsets.zero,
-            constraints: BoxConstraints(
-              minWidth: screenWidth * 0.09,
-              minHeight: screenWidth * 0.09,
+          GestureDetector(
+            onTap: onFavoriteToggled,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.015),
+              child: Icon(
+                isFavorite ? Icons.star_rounded : Icons.star_border_rounded,
+                size: screenWidth * 0.065,
+                color: isFavorite ? Color.fromARGB(255, 255, 204, 0) : Color.fromARGB(255, 180, 180, 180),
+              ),
             ),
-            icon: Icon(
-              Icons.copy_outlined,
-              size: screenWidth * 0.055,
-              color: Color.fromARGB(255, 34, 34, 34),
+          ),
+
+          GestureDetector(
+            onTap: () {
+              Clipboard.setData(ClipboardData(text: contentToCopy));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("Copied to clipboard")),
+              );
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.015),
+              child: Icon(
+                Icons.copy_outlined,
+                size: screenWidth * 0.055,
+                color: Color.fromARGB(255, 34, 34, 34),
+              ),
             ),
           ),
 

@@ -7,5 +7,13 @@ class NotesModel extends HiveObject {
   String title;
   @HiveField(1)
   String content;
-  NotesModel({required this.title, required this.content});
+  
+  @HiveField(2, defaultValue: false)
+  bool isFavorite;
+  
+  NotesModel({
+    required this.title, 
+    required this.content,
+    this.isFavorite = false,
+  });
 }

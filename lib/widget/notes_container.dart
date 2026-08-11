@@ -77,6 +77,11 @@ class NotesContainer extends StatelessWidget {
           icon: Icons.description_outlined,
           title: item.title,
           description: item.content,
+          isFavorite: item.isFavorite,
+          onFavoriteToggled: () async {
+            item.isFavorite = !item.isFavorite;
+            await item.save();
+          },
           onTap: () {
             showNoteDialog(context, item);
           },

@@ -230,7 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     index: 3,
                                     icon: Icons.star_border_rounded,
                                     title: 'FAVORITES',
-                                    count: '0',
+                                    count: (HiveService.getPasswords().where((p) => p.isFavorite).length + HiveService.getNotes().where((n) => n.isFavorite).length).toString(),
                                   ),
                                 ),
                               ],
@@ -339,9 +339,23 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             },
                           )
-                        : FavoritesContainer(
-                            favoritesList: [],
-                            onAddItemPressed: () {},
+                        : ValueListenableBuilder(
+                            valueListenable: HiveService.getPasswordListenable(),
+                            builder: (context, pwdValue, pwdChild) {
+                              return ValueListenableBuilder(
+                                valueListenable: HiveService.getNotesListenable(),
+                                builder: (context, noteValue, noteChild) {
+                                  final favPasswords = HiveService.getPasswords().where((p) => p.isFavorite).toList();
+                                  final favNotes = HiveService.getNotes().where((n) => n.isFavorite).toList();
+                                  final List<dynamic> favoritesList = [...favPasswords, ...favNotes];
+
+                                  return FavoritesContainer(
+                                    favoritesList: favoritesList,
+                                    onAddItemPressed: openAddDialog,
+                                  );
+                                },
+                              );
+                            },
                           ),
                   ),
                 ),

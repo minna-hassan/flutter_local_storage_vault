@@ -12,9 +12,13 @@ class PasswordModel extends HiveObject {
   @HiveField(2, defaultValue: '')
   String? password;
 
+  @HiveField(3, defaultValue: false)
+  bool isFavorite;
+
   PasswordModel({
     required this.title,
     required this.username,
     required this.password,
+    this.isFavorite = false,
   });
 }

@@ -19,20 +19,23 @@ class PasswordModelAdapter extends TypeAdapter<PasswordModel> {
     return PasswordModel(
       title: fields[0] as String,
       username: fields[1] as String,
-      password: fields[2] == null ? '' : fields[2] as String,
+      password: fields[2] == null ? '' : fields[2] as String?,
+      isFavorite: fields[3] == null ? false : fields[3] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, PasswordModel obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
       ..write(obj.username)
       ..writeByte(2)
-      ..write(obj.password);
+      ..write(obj.password)
+      ..writeByte(3)
+      ..write(obj.isFavorite);
   }
 
   @override

@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class NoteItem extends StatelessWidget {
   final String title;
   final String description;
   final IconData icon;
   final VoidCallback onTap;
+  final bool isFavorite;
+  final VoidCallback onFavoriteToggled;
 
-  const NoteItem({
+  NoteItem({
     super.key,
     required this.title,
     required this.description,
     required this.icon,
     required this.onTap,
+    required this.isFavorite,
+    required this.onFavoriteToggled,
   });
 
   @override
@@ -76,6 +81,37 @@ class NoteItem extends StatelessWidget {
                 ],
               ),
             ),
+
+            GestureDetector(
+              onTap: onFavoriteToggled,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.015),
+                child: Icon(
+                  isFavorite ? Icons.star_rounded : Icons.star_border_rounded,
+                  size: screenWidth * 0.065,
+                  color: isFavorite ? Color.fromARGB(255, 255, 204, 0) : Color.fromARGB(255, 180, 180, 180),
+                ),
+              ),
+            ),
+
+            GestureDetector(
+              onTap: () {
+                Clipboard.setData(ClipboardData(text: description));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Copied to clipboard")),
+                );
+              },
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.015),
+                child: Icon(
+                  Icons.copy_outlined,
+                  size: screenWidth * 0.055,
+                  color: Color.fromARGB(255, 34, 34, 34),
+                ),
+              ),
+            ),
+
+            SizedBox(width: screenWidth * 0.01),
 
             Icon(
               Icons.chevron_right_rounded,

@@ -14,8 +14,10 @@ void main() async {
   final masterKey = await secureStorage.getData("master_key");
   final initialRoute = masterKey != null ? '/login' : '/vault_setup';
 
-  FlutterNativeSplash.remove();
   runApp(MyApp(initialRoute: initialRoute));
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    FlutterNativeSplash.remove();
+  });
 }
 
 class MyApp extends StatelessWidget {

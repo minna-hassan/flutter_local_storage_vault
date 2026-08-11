@@ -30,8 +30,14 @@ class PasswordsContainer extends StatelessWidget {
 
         return RecentItem(
           icon: Icons.key_rounded,
-          title: item.username,
+          title: item.title,
           userName: item.username,
+          contentToCopy: item.password ?? '',
+          isFavorite: item.isFavorite,
+          onFavoriteToggled: () async {
+            item.isFavorite = !item.isFavorite;
+            await item.save();
+          },
         );
       }),
     );
