@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Named by tone -->
+    <color name="dark_gray">#FF1D1D1D</color>
+    
+    <!-- Or named by purpose (Recommended) -->
+    <color name="splash_bg_color">#FF1D1D1D</color>
+</resources>
