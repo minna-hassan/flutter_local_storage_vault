@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_database_assignment/model/notes_model.dart';
 import 'package:flutter_database_assignment/model/password_model.dart';
 import 'package:hive/hive.dart';
@@ -7,11 +9,30 @@ class HiveService {
   static Future<void> init() async {
     await Hive.initFlutter();
 
-    Hive.registerAdapter(PasswordModelAdapter());
+    const secureStorage = FlutterSecureStorage();
+    final encryptionKeyString = await secureStorage.read(key: 'key');
+    if (encryptionKeyString == null) {
+      final key = Hive.generateSecureKey();
+      await secureStorage.write(
+        key: 'key',
+        value: base64UrlEncode(key),
+      );
+    }
+    
+    final key = await secureStorage.read(key: 'key');
+    final encryptionKeyUint8List = base64Url.decode(key!);
 
+    Hive.registerAdapter(PasswordModelAdapter());
     Hive.registerAdapter(NotesModelAdapter());
-    await Hive.openBox<PasswordModel>('password');
-    await Hive.openBox<NotesModel>('notes');
+
+    await Hive.openBox<PasswordModel>(
+      'password',
+      encryptionCipher: HiveAesCipher(encryptionKeyUint8List),
+    );
+    await Hive.openBox<NotesModel>(
+      'notes',
+      encryptionCipher: HiveAesCipher(encryptionKeyUint8List),
+    );
   }
 
   static Future<void> addPassword({
