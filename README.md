@@ -13,7 +13,7 @@ If you find this repository helpful or use parts of it in your own work, please 
 ---
 
 # 🎬 Preview
-https://github.com/user-attachments/assets/c6ac08e0-62f3-4364-9e27-85af69ebaf7c
+https://github.com/user-attachments/assets/61926f69-e3b1-4df1-a3dd-3517b25775af
 
 ---
 
